@@ -1,11 +1,8 @@
 // lambda-like handler function
-var zipService = require("./zipService.js");
-var cityService = require("./cityService.js");
-var longlat = require("./longlat.js");
-var customFilter = require("./customFilter.js");
+var processRequest = require("./processRequest.js");
 var logger = require("./logger.js");
 
-exports.handler = async event => {
+exports.handler = async function(event) {
   const promise = new Promise(function(resolve, reject) {
     try {
       resolve(controlEvent(event));
@@ -22,20 +19,8 @@ async function controlEvent(event) {
   var data;
 
   switch (path) {
-    case "/zipcode":
-      data = await zipService(event);
-      break;
-
-    case "/city":
-      data = await cityService(event);
-      break;
-
-    case "/longlat":
-      data = await longlat(event);
-      break;
-
     case "/custom":
-      data = await customFilter(event);
+      data = await processRequest.handler(event);
       break;
 
     default:
