@@ -5,7 +5,7 @@ var logger = require("./logger.js");
 exports.handler = async function(event) {
   const promise = new Promise(function(resolve, reject) {
     try {
-      resolve(controlEvent(event));
+      resolve(processRequest.handler(event));
     } catch (err) {
       reject(Error(err));
     }
@@ -14,17 +14,4 @@ exports.handler = async function(event) {
   return promise;
 };
 
-async function controlEvent(event) {
-  var path = event.path;
-  var data;
 
-  switch (path) {
-    case "/custom":
-      data = await processRequest.handler(event);
-      break;
-
-    default:
-      break;
-  }
-  return data;
-}
